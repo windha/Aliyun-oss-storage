@@ -1,5 +1,13 @@
 # Aliyun-oss-storage for Laravel 5+
-解决可以设置Content-Type 问题
+解决可以设置Content-Type 问题, 缘由是如果文件过大，通过fileinfo 扩展检测文件类型报错             
+$options[OssClient::OSS_CONTENT_TYPE] = Util::guessMimeType($path, $contents);
+
+   public function detectMimeType(string $path, $contents): ?string
+    {
+        $mimeType = is_string($contents)
+            ? (@$this->finfo->buffer($contents) ?: null)
+            : null;
+报内存溢出
 
 Aliyun oss filesystem storage adapter for laravel 5. You can use Aliyun OSS just like laravel Storage as usual.    
 借鉴了一些优秀的代码，综合各方，同时做了更多优化，将会添加更多完善的接口和插件，打造Laravel最好的OSS Storage扩展
