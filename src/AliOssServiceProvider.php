@@ -39,6 +39,7 @@ class AliOssServiceProvider extends ServiceProvider
             $ssl       = empty($config['ssl']) ? false : $config['ssl']; 
             $isCname   = empty($config['isCName']) ? false : $config['isCName'];
             $debug     = empty($config['debug']) ? false : $config['debug'];
+            $prefix     = isset($config['prefix']) ?  $config['prefix'] : null; 
 
             $options     = isset($config['options']) ?  $config['options']: [];
 
@@ -48,7 +49,7 @@ class AliOssServiceProvider extends ServiceProvider
             if($debug) Log::debug('OSS config:', $config);
 
             $client  = new OssClient($accessId, $accessKey, $epInternal, $isCname);
-            $adapter = new AliOssAdapter($client, $bucket, $endPoint, $ssl, $isCname, $debug, $cdnDomain,$options);
+            $adapter = new AliOssAdapter($client, $bucket, $endPoint, $ssl, $isCname, $debug, $cdnDomain, $prefix, $options);
 
             //Log::debug($client);
             $filesystem =  new Filesystem($adapter);

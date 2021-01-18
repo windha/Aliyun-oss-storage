@@ -147,7 +147,6 @@ class AliOssAdapter extends AbstractAdapter
     public function write($path, $contents, Config $config)
     {
         $object = $this->applyPathPrefix($path);
-        $options = $this->getOptions($this->options, $config);
 
         if (! isset($options[OssClient::OSS_LENGTH])) {
             $options[OssClient::OSS_LENGTH] = Util::contentSize($contents);
@@ -155,6 +154,8 @@ class AliOssAdapter extends AbstractAdapter
         if (! isset($options[OssClient::OSS_CONTENT_TYPE])) {
             $options[OssClient::OSS_CONTENT_TYPE] = Util::guessMimeType($path, $contents);
         }
+        $options = $this->getOptions($this->options, $config);
+
         try {
             $this->client->putObject($this->bucket, $object, $contents, $options);
         } catch (OssException $e) {
